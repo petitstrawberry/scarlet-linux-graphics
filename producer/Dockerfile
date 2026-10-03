@@ -11,7 +11,7 @@ ARG BUILD_JOBS=4
 ARG GRAPHICS_CACHE_ID=local
 RUN --mount=type=cache,id=scarlet-linux-graphics-registry,target=/root/.cargo/registry \
     --mount=type=cache,id=scarlet-linux-graphics-git,target=/root/.cargo/git \
-    --mount=type=cache,id=scarlet-linux-graphics-work-${GRAPHICS_CACHE_ID},target=/graphics-work \
+    --mount=type=cache,id=scarlet-linux-graphics-work-${GRAPHICS_CACHE_ID},target=/graphics-work,sharing=locked \
     GRAPHICS_REVISION="$GRAPHICS_REVISION" BUILD_JOBS="$BUILD_JOBS" bash /graphics-producer/producer/build.sh /out
 
 FROM debian:trixie-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a AS runtime

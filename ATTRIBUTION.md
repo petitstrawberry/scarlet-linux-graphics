@@ -8,8 +8,8 @@ Top-level notices are installed under `/usr/share/doc/scarlet-linux-graphics/`.
 The source export contains the exact fork trees in `sources.lock.json`,
 including Mesa's notices for its individual components. Both Rust dependency
 graphs are exported by `cargo vendor`, with their individual license files.
-The SWS standalone Cargo.lock generated for this build is preserved beside its
-source. Dependency-package binaries come from the caller's distribution; that
+The pinned SWS standalone Cargo.lock is preserved beside its source.
+Dependency-package binaries come from the caller's distribution; that
 caller must retain its dpkg copyright metadata and matching Debian sources.
 Compiler/toolchain binaries are not installed in this graphics runtime.
 
