@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 # Standalone reference builder. Debian bundle supplies its own equivalent stages.
 FROM debian:trixie-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a AS builder
 COPY producer/build-packages.txt /tmp/build-packages.txt
