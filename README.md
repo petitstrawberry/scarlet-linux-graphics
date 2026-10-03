@@ -37,11 +37,14 @@ On a Scarlet desktop with the matching SWS/bridge protocols:
 
 ```sh
 # Scarlet-native terminal; use the same socket in the app terminal.
-XDG_RUNTIME_DIR=/tmp WAYLAND_DISPLAY=wayland-graphics /bin/wayland-bridge
+export XDG_RUNTIME_DIR=/tmp
+export WAYLAND_DISPLAY=wayland-graphics
+/bin/wayland-bridge
 
 # Separate terminal. Substitute an installed Linux ABI application.
-XDG_RUNTIME_DIR=/tmp WAYLAND_DISPLAY=wayland-graphics \
-  abi-run linux-aarch64 /usr/local/bin/scarlet-gl /path/to/application
+export XDG_RUNTIME_DIR=/tmp
+export WAYLAND_DISPLAY=wayland-graphics
+abi-run linux-aarch64 /bin/sh /usr/local/bin/scarlet-gl /path/to/application
 ```
 
 `scarlet-gl` selects Zink, SGFX's ICD, private Mesa/SDL and the no-DRM Kopper
@@ -53,8 +56,17 @@ changed. A successful dependency-loader check is not evidence of GPU execution.
 
 The original OpenTTD validation used AArch64 QEMU/VirGL on Scarlet. Real hardware
 and full Vulkan conformance are not established. The OpenTTD fullscreen viewport
-limitation remains unresolved; use windowed mode. Rebuilding in Debian changes
-the build environment, so the old game screenshots do not validate new binaries.
+limitation remains unresolved; use windowed mode. The Debian-built runtime at
+producer revision `64897835cabe01f08002b86badb3d872e1ea5768` was also checked on
+2026-10-03 in the dedicated Scarlet QEMU snapshot: the fresh-context error gate,
+clear readback and Wayland swap passed, and OpenTTD 15.3 displayed a map, accepted
+pan/zoom input and exited through its close dialog. The renderer reported
+`zink Vulkan 1.0(SGFX Vulkan (Scarlet VirGL GPU 0) (Driver Unknown))`.
+The 117 transferred runtime files matched the integrated Debian base rootfs.
+Debian's GLVND/Wayland EGL dependencies were copied from that rootfs into the
+guest's private validation directory; the complete new rootfs was not booted.
+SGFX still reports missing optional/base Zink features. This verifies the tested
+windowed path, not complete OpenGL/Vulkan support or real-hardware operation.
 
 `manifest.json` records source pins, tools, runtime hashes and ELF dependencies.
 Corresponding source output includes exact Git trees, Rust dependencies from
