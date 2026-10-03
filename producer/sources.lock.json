@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "target": "aarch64-unknown-linux-gnu",
+  "rust_toolchain": "nightly-2025-12-31",
+  "sources": {
+    "sgfx": {"url": "https://github.com/petitstrawberry/sgfx.git", "revision": "eb3f675c319d73f65140ee206a13b9458766bc7b"},
+    "scarlet": {"url": "https://github.com/petitstrawberry/Scarlet.git", "revision": "062e68977387fdeba80d7d6776444278c1723300"},
+    "mesa": {"url": "https://github.com/petitstrawberry/mesa.git", "revision": "a77e1dae360bd306ede96904fa9f42eb638bf406"},
+    "sdl": {"url": "https://github.com/petitstrawberry/SDL.git", "revision": "fc96e4aff56cb40b738b80674fde36291d7a98aa"}
+  }
+}

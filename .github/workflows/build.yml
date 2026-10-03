@@ -1,0 +1,31 @@
+name: Linux graphics producer
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          for script in producer/*.sh tests/*.sh; do bash -n "$script"; done
+          sh -n runtime/scarlet-gl
+          python3 -m py_compile producer/*.py
+          python3 -m json.tool producer/sources.lock.json >/dev/null
+  build:
+    if: github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash producer/build_container.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-graphics-aarch64-glibc
+          path: artifacts/
+          if-no-files-found: error
+          compression-level: 0

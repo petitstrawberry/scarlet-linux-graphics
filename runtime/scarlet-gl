@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+mesa="${SGFX_ZINK_RUNTIME:-/opt/sgfx-zink}"
+sdl="${SGFX_SDL_RUNTIME:-/opt/sgfx-sdl}"
+export LD_LIBRARY_PATH="$sdl/lib:$mesa/lib/aarch64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export __EGL_VENDOR_LIBRARY_FILENAMES="$mesa/share/glvnd/egl_vendor.d/50_mesa.json"
+export MESA_LOADER_DRIVER_OVERRIDE=zink
+export LIBGL_KOPPER_DRI2=1
+export SDL_VIDEODRIVER=wayland
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+export VK_DRIVER_FILES="${SGFX_VULKAN_ICD:-/usr/share/vulkan/icd.d/sgfx.json}"
+export VK_ICD_FILENAMES="$VK_DRIVER_FILES"
+unset GALLIUM_DRIVER LIBGL_ALWAYS_SOFTWARE LIBGL_KOPPER_DISABLE MESA_GL_VERSION_OVERRIDE MESA_GLSL_VERSION_OVERRIDE
+if [ "$#" -eq 0 ]; then
+    exec /opt/sgfx-vulkan-tests/zink-window
+fi
+exec "$@"
