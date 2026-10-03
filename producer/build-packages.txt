@@ -21,6 +21,7 @@ libzstd-dev
 libelf-dev
 libudev-dev
 libwayland-dev
+libwayland-egl-backend-dev
 libwayland-bin
 wayland-protocols
 libxkbcommon-dev
